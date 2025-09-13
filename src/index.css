@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles for HowTo Ninja */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+  }
+}
+
+@layer components {
+  /* Skill Content Styling */
+  .skill-content h1 {
+    @apply text-3xl md:text-4xl font-bold text-licorice mb-6 leading-tight;
+  }
+  
+  .skill-content h2 {
+    @apply text-2xl font-bold text-licorice mt-8 mb-4 pb-2 border-b border-gray-200;
+  }
+  
+  .skill-content p {
+    @apply text-licorice-700 mb-4 text-lg leading-relaxed;
+  }
+  
+  .skill-content ol {
+    @apply mb-6 space-y-4;
+  }
+  
+  .skill-content ol li {
+    @apply text-licorice-800 text-lg leading-relaxed pl-4 relative;
+    counter-increment: step-counter;
+  }
+  
+  .skill-content ol li::before {
+    content: counter(step-counter);
+    @apply absolute left-0 top-0 bg-cerulean text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold -ml-12;
+  }
+  
+  .skill-content ol {
+    counter-reset: step-counter;
+    @apply pl-12;
+  }
+  
+  .skill-content ul {
+    @apply mb-6 space-y-2 pl-6;
+  }
+  
+  .skill-content ul li {
+    @apply text-licorice-700 relative leading-relaxed;
+  }
+  
+  .skill-content ul li::before {
+    content: '💡';
+    @apply absolute -left-8 top-0;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .skill-content h1 {
+      @apply text-2xl;
+    }
+    
+    .skill-content h2 {
+      @apply text-xl;
+    }
+    
+    .skill-content p,
+    .skill-content ol li {
+      @apply text-base;
+    }
+    
+    .skill-content ol {
+      @apply pl-8;
+    }
+    
+    .skill-content ol li::before {
+      @apply -ml-8 w-6 h-6 text-xs;
+    }
+    
+    .skill-content ul {
+      @apply pl-4;
+    }
+    
+    .skill-content ul li::before {
+      @apply -left-6;
+    }
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smooth hover transitions */
+  .hover-lift {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #477998;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skill-content ol li::before {
+    @apply border-2 border-licorice;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .skill-content {
+    @apply text-licorice;
+  }
+  
+  .skill-content h1,
+  .skill-content h2 {
+    @apply text-licorice;
+  }
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cerulean rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cerulean-600;
+}
+
+/* Ad container styles */
+.ad-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  min-height: 50px;
+  color: #6c757d;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Ensure proper spacing around ads */
+.ad-container + * {
+  margin-top: 1rem;
+}
+
+* + .ad-container {
+}
