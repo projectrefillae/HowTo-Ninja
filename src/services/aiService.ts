@@ -3,7 +3,7 @@
 
 export class AIService {
   private static instance: AIService;
-  private apiKey = import.meta.env.VITE_OPENAI_API_KEY || '';
+  private apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
   static getInstance(): AIService {
     if (!AIService.instance) {
@@ -13,8 +13,8 @@ export class AIService {
   }
 
   async generateSkill(query: string): Promise<any> {
-    // In production, replace this with actual OpenAI API call
-    if (this.apiKey && this.apiKey !== '') {
+    // Use OpenAI API if key is available
+    if (this.apiKey && this.apiKey.trim() !== '') {
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -27,14 +27,15 @@ export class AIService {
             messages: [
               {
                 role: 'system',
-                content: `You are a helpful assistant that creates step-by-step guides. Format your response as HTML with:
+                content: `You are HowTo Ninja, an expert tutorial creator. Create comprehensive, SEO-optimized step-by-step guides. Format your response as clean HTML with:
                 - H1 for title
-                - P for introduction (SEO-friendly, 2-3 sentences)
+                - P for introduction (SEO-friendly, 2-3 sentences with relevant keywords)
                 - H2 for "Step-by-Step Instructions"
-                - OL with LI for each step
+                - OL with LI for each step (detailed, actionable steps)
                 - H2 for "Tips & Common Mistakes"
-                - UL with LI for tips
-                Keep it concise and practical.`
+                - UL with LI for tips (practical advice and warnings)
+                - H2 for "Conclusion" with a brief summary
+                Keep it comprehensive, practical, and SEO-friendly. Use natural language with relevant keywords.`
               },
               {
                 role: 'user',
@@ -46,6 +47,10 @@ export class AIService {
           }),
         });
 
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
+        }
+
         const data = await response.json();
         return {
           content: data.choices[0].message.content,
@@ -54,6 +59,7 @@ export class AIService {
         };
       } catch (error) {
         console.error('AI API Error:', error);
+        // Fall back to demo response if API fails
         return this.getFallbackResponse(query);
       }
     }
@@ -64,29 +70,35 @@ export class AIService {
 
   private getFallbackResponse(query: string) {
     const cleanQuery = query.toLowerCase().replace(/^how to /, '');
+    const capitalizedQuery = cleanQuery.charAt(0).toUpperCase() + cleanQuery.slice(1);
+    
     return {
       content: `
-        <h1>How to ${cleanQuery.charAt(0).toUpperCase() + cleanQuery.slice(1)}</h1>
-        <p>Learn how to ${cleanQuery} with this comprehensive step-by-step guide. This skill is essential for daily life and can be mastered with practice and the right technique.</p>
+        <h1>How to ${capitalizedQuery}</h1>
+        <p>Learn how to ${cleanQuery} with this comprehensive step-by-step guide. This essential skill can be mastered with practice and the right technique. Follow our detailed instructions to achieve professional results every time.</p>
         
         <h2>Step-by-Step Instructions</h2>
         <ol>
-          <li>Prepare all necessary materials and find a comfortable workspace</li>
-          <li>Start with the basic foundation technique</li>
-          <li>Apply the core method carefully and systematically</li>
-          <li>Check your progress and make adjustments as needed</li>
-          <li>Complete the final steps with attention to detail</li>
-          <li>Review your work and practice for improvement</li>
+          <li>Gather all necessary materials and tools. Ensure you have a clean, well-lit workspace with adequate room to work comfortably.</li>
+          <li>Begin with the foundational technique. Take your time to understand the basic principles before proceeding to more complex steps.</li>
+          <li>Apply the core method systematically. Follow each step in sequence, paying attention to detail and maintaining consistency throughout the process.</li>
+          <li>Monitor your progress regularly. Make small adjustments as needed to ensure you're on the right track and achieving the desired results.</li>
+          <li>Execute the finishing steps with precision. These final touches often make the difference between amateur and professional results.</li>
+          <li>Review and refine your technique. Practice regularly to build muscle memory and improve your skills over time.</li>
         </ol>
 
         <h2>Tips & Common Mistakes</h2>
         <ul>
-          <li>Take your time - rushing leads to mistakes</li>
-          <li>Practice regularly to build muscle memory</li>
-          <li>Don't skip the preparation steps</li>
-          <li>Common mistake: Not following the sequence properly</li>
-          <li>Pro tip: Watch video tutorials for visual reference</li>
+          <li>Take your time and don't rush - hurrying through the process often leads to mistakes that are difficult to correct later.</li>
+          <li>Practice regularly to develop muscle memory and improve your technique. Consistency is key to mastering any skill.</li>
+          <li>Never skip the preparation phase - proper setup and organization save time and prevent errors during execution.</li>
+          <li>Avoid the common mistake of not following the sequence properly. Each step builds on the previous one for optimal results.</li>
+          <li>Use high-quality materials and tools when possible - they make a significant difference in the final outcome.</li>
+          <li>Learn from mistakes rather than getting frustrated. Each error is an opportunity to improve your technique.</li>
         </ul>
+        
+        <h2>Conclusion</h2>
+        <p>Mastering how to ${cleanQuery} requires patience, practice, and attention to detail. By following these step-by-step instructions and avoiding common pitfalls, you'll develop the skills needed to achieve professional results. Remember that improvement comes with consistent practice and a willingness to learn from each attempt.</p>
       `,
       estimatedTime: this.estimateTime(query),
       difficulty: this.estimateDifficulty(query)

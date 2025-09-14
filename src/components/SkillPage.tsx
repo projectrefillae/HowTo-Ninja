@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, Bookmark, ChevronDown, ChevronUp } from 'lucide-react';
 import { generateStructuredData } from '../utils/seo';
+import AdBanner from './AdBanner';
 
 interface SkillPageProps {
   content: string;
@@ -46,6 +47,16 @@ export default function SkillPage({ content, estimatedTime, difficulty, onShare,
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Top Banner Ad */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <AdBanner 
+            slot="1234567890"
+            format="horizontal"
+            className="text-center"
+          />
+        </div>
+      </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -77,6 +88,15 @@ export default function SkillPage({ content, estimatedTime, difficulty, onShare,
                 className="prose prose-lg max-w-none skill-content"
                 dangerouslySetInnerHTML={{ __html: cleanContent }}
               />
+              
+              {/* In-Content Ad */}
+              <div className="my-8">
+                <AdBanner 
+                  slot="0987654321"
+                  format="rectangle"
+                  className="text-center"
+                />
+              </div>
             </div>
 
             {/* Tips Section (Mobile Collapsible) */}
@@ -96,6 +116,17 @@ export default function SkillPage({ content, estimatedTime, difficulty, onShare,
             </div>
           </div>
 
+          {/* Sidebar Ad - Desktop Only */}
+          <div className="hidden lg:block">
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+              <h3 className="text-sm font-medium text-gray-500 mb-4">Sponsored</h3>
+              <AdBanner 
+                slot="1122334455"
+                format="vertical"
+                style={{ display: 'block', width: '300px', height: '600px' }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

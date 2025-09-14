@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Grid, List, ChefHat, Laptop, Lightbulb, Hammer, Compass, Heart, Camera, Briefcase, Wrench, MessageCircle, Car, FolderOpen } from 'lucide-react';
+import AdBanner from './AdBanner';
 
 interface Skill {
   id: string;
@@ -207,6 +208,17 @@ export default function SkillsLibrary({ onSkillSelect }: SkillsLibraryProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Top Banner Ad */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <AdBanner 
+            slot="1234567890"
+            format="horizontal"
+            className="text-center"
+          />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -274,6 +286,15 @@ export default function SkillsLibrary({ onSkillSelect }: SkillsLibraryProps) {
           <p className="text-licorice-600">
             Showing {filteredAndSortedSkills.length} of {skillsData.length} skills
           </p>
+          
+          {/* Mid-Content Ad */}
+          <div className="mb-6">
+            <AdBanner 
+              slot="0987654321"
+              format="rectangle"
+              className="text-center"
+            />
+          </div>
         </div>
 
         {viewMode === 'grid' ? (
