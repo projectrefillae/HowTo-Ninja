@@ -3,7 +3,11 @@
 
 export class AIService {
   private static instance: AIService;
-  private apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  private apiKey: string;
+
+  constructor() {
+    this.apiKey = import.meta.env.VITE_OPENAI_API_KEY || '';
+  }
 
   static getInstance(): AIService {
     if (!AIService.instance) {
@@ -14,8 +18,9 @@ export class AIService {
 
   async generateSkill(query: string): Promise<any> {
     // Use OpenAI API if key is available
-    if (this.apiKey && this.apiKey.trim() !== '') {
+    if (this.apiKey && this.apiKey.trim() !== '' && this.apiKey !== 'undefined') {
       try {
+        console.log('Using OpenAI API for:', query);
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {

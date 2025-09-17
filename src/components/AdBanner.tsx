@@ -21,6 +21,8 @@ export default function AdBanner({
   style = { display: 'block' },
   className = ''
 }: AdBannerProps) {
+  const adsenseClientId = import.meta.env.VITE_ADSENSE_CLIENT_ID || 'ca-pub-XXXXXXXXXXXXXXXX';
+
   useEffect(() => {
     try {
       if (window.adsbygoogle) {
@@ -36,7 +38,7 @@ export default function AdBanner({
       <ins
         className="adsbygoogle"
         style={style}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-client={adsenseClientId}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive.toString()}

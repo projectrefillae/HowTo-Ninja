@@ -1,0 +1,15 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables can be set in Netlify dashboard
+# Site settings > Environment variables
+# Add: VITE_OPENAI_API_KEY and VITE_ADSENSE_CLIENT_ID

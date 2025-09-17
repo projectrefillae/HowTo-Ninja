@@ -50,10 +50,27 @@ npm run dev
 - **Mobile Ad Support**: Responsive ad units for all devices
 ## 🚀 Deployment
 ### Environment Variables for Production
-Set these environment variables in your hosting platform:
+
+#### For Netlify:
+1. Go to your Netlify dashboard
+2. Select your site
+3. Go to Site settings > Environment variables
+4. Add these variables:
+
+```
+VITE_OPENAI_API_KEY=sk-proj-your-actual-api-key-here
+VITE_ADSENSE_CLIENT_ID=ca-pub-your-adsense-id-here
+```
+
+#### For other platforms, set these environment variables:
 - `VITE_OPENAI_API_KEY`: Your OpenAI API key
 - `VITE_ADSENSE_CLIENT_ID`: Your Google AdSense client ID
 ### Recommended Hosting Platforms
+#### Important Notes:
+- Environment variables starting with `VITE_` are exposed to the browser
+- Never commit real API keys to version control
+- The app will fall back to demo content if no API key is provided
+
 - **Vercel**: Automatic deployments from GitHub
 - **Netlify**: Easy static site hosting
 - **Railway**: Full-stack hosting with environment variables
