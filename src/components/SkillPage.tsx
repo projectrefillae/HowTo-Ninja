@@ -43,7 +43,10 @@ export default function SkillPage({ content, estimatedTime, difficulty, onShare,
   }, [content, estimatedTime, difficulty]);
 
   // Clean the content to remove any HTML comments or unwanted text
-  const cleanContent = content.replace(/```html|```/g, '').trim();
+  const cleanContent = content
+    .replace(/```html|```/g, '')
+    .replace(/^html\s*/i, '')
+    .trim();
 
   return (
     <div className="min-h-screen bg-gray-50">
